@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://kpbif884jfp8"]
+
+[ext_resource type="Script" path="res://game_over.gd" id="1_8jx8e"]
+
+[node name="GameOver" type="Node2D"]
+position = Vector2(586, 287)
+scale = Vector2(1.52386, 1.48332)
+script = ExtResource("1_8jx8e")
+
+[node name="btnRestart" type="Button" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = 30.0
+offset_right = 63.0
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Restart"
+
+[node name="btnHome" type="Button" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -68.0
+offset_top = 123.0
+offset_right = 63.0
+offset_bottom = 181.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Home"
+
+[node name="Label" type="Label" parent="."]
+offset_left = -53.0
+offset_top = -93.0
+offset_right = 72.0
+offset_bottom = -35.0
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="btnRestart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="btnHome" to="." method="_on_btn_home_pressed"]
