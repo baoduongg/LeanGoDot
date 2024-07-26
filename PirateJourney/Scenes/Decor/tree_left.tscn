@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3gaylflyi0yq"]
+
+[ext_resource type="Texture2D" uid="uid://di0d61rvwknd0" path="res://Imports/Decor/FontTree/Back Palm Tree Left 01.png" id="1_wy2sj"]
+[ext_resource type="Texture2D" uid="uid://bi2uhg3fblmj7" path="res://Imports/Decor/FontTree/Back Palm Tree Left 02.png" id="2_m0y72"]
+[ext_resource type="Texture2D" uid="uid://bqhbufc5l61x6" path="res://Imports/Decor/FontTree/Back Palm Tree Left 03.png" id="3_jbmf8"]
+[ext_resource type="Texture2D" uid="uid://bp48fnawl2vax" path="res://Imports/Decor/FontTree/Back Palm Tree Left 04.png" id="4_beac0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4nitg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wy2sj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_m0y72")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_jbmf8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_beac0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="TreeLeft" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4nitg")
+autoplay = "default"

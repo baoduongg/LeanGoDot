@@ -1,0 +1,89 @@
+[gd_scene load_steps=16 format=3 uid="uid://d4l53udnvjrm8"]
+
+[ext_resource type="Script" path="res://Script/Interactable/chest.gd" id="1_8tm4l"]
+[ext_resource type="Texture2D" uid="uid://b4qvbkcvgmif3" path="res://Imports/Decor/Objects/Chest/Chest Close 01.png" id="1_c4jui"]
+[ext_resource type="Texture2D" uid="uid://4ciogtag7k3p" path="res://Imports/Decor/Objects/Chest/Chest Close 02.png" id="3_6uvgd"]
+[ext_resource type="Texture2D" uid="uid://cmtd2gdhtgla3" path="res://Imports/Decor/Objects/Chest/Chest Open 01.png" id="4_xgh4b"]
+[ext_resource type="Texture2D" uid="uid://cn8necuiobjeb" path="res://Imports/Decor/Objects/Chest/Chest Open 02.png" id="5_gb6vb"]
+[ext_resource type="Texture2D" uid="uid://da8odo1y2cium" path="res://Imports/Decor/Objects/Chest/Chest Open 03.png" id="6_3xikx"]
+[ext_resource type="Texture2D" uid="uid://d0f6vas36284l" path="res://Imports/Decor/Objects/Chest/Chest Open 04.png" id="7_p5pti"]
+[ext_resource type="Texture2D" uid="uid://x2a4aehemc3f" path="res://Imports/Decor/Objects/Chest/Chest Open 05.png" id="8_lkh20"]
+[ext_resource type="Texture2D" uid="uid://savu8pc7bhe5" path="res://Imports/Decor/Objects/Chest/Chest Open 06.png" id="9_55tfb"]
+
+[sub_resource type="GDScript" id="GDScript_blqoo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ub1vk"]
+size = Vector2(30, 26)
+
+[sub_resource type="Animation" id="Animation_2sffh"]
+resource_name = "close"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("1_c4jui"), ExtResource("3_6uvgd")]
+}
+
+[sub_resource type="Animation" id="Animation_mxc3s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_c4jui")]
+}
+
+[sub_resource type="Animation" id="Animation_sc4cl"]
+resource_name = "open"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("4_xgh4b"), ExtResource("5_gb6vb"), ExtResource("6_3xikx"), ExtResource("7_p5pti"), ExtResource("8_lkh20"), ExtResource("9_55tfb")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fns7j"]
+_data = {
+"RESET": SubResource("Animation_mxc3s"),
+"close": SubResource("Animation_2sffh"),
+"open": SubResource("Animation_sc4cl")
+}
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_8tm4l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_c4jui")
+script = SubResource("GDScript_blqoo")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 5)
+shape = SubResource("RectangleShape2D_ub1vk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fns7j")
+}

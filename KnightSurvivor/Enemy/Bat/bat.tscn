@@ -1,0 +1,221 @@
+[gd_scene load_steps=11 format=3 uid="uid://2gciu5eghctw"]
+
+[ext_resource type="Texture2D" uid="uid://cr1eqv2eqbb1c" path="res://assets/Enemy/Flight.png" id="1_ci05r"]
+[ext_resource type="Texture2D" uid="uid://ce1hgqomcpyyx" path="res://assets/Enemy/Death.png" id="2_4or4x"]
+
+[sub_resource type="GDScript" id="GDScript_040cs"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 3000.0
+const JUMP_VELOCITY = -400.0
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
+
+@onready var ap = $Container/AnimationPlayer
+@onready var sprite = $Sprite2D
+@onready var container = $Container
+@onready var player = $\"../Player\"
+var player_in_sight
+func _physics_process(delta):
+	if player_in_sight:
+		velocity =(player.position - self.position).normalized() * SPEED * delta;
+		if self.position.x > player.position.x:
+			sprite.flip_h =false;
+		elif self.position.x < player.position.x:
+			sprite.flip_h =true;
+		move_and_slide()
+
+func _handle_death():
+	ap.play(\"Death\")
+	self.queue_free()
+
+
+func _on_area_2d_body_entered(body):
+	if body.name == \"Player\":
+		get_tree().change_scene_to_file(\"res://game_over.tscn\")
+	pass # Replace with function body.
+
+
+func _on_player_in_sight(body):
+	if body.name == \"Player\":
+			player_in_sight = true;
+	pass # Replace with function body.
+
+
+func _on_sight_body_exited(body):
+	if body.name == \"Player\":
+			player_in_sight = false;
+	pass # Replace with function body.
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s217c"]
+radius = 13.0
+
+[sub_resource type="Animation" id="Animation_4hnp6"]
+resource_name = "Death"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_4or4x")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_dvluv"]
+resource_name = "Fly"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ci05r")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_a7own"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_ci05r")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jrfbh"]
+_data = {
+"Death": SubResource("Animation_4hnp6"),
+"Fly": SubResource("Animation_dvluv"),
+"RESET": SubResource("Animation_a7own")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0lnhc"]
+radius = 79.0063
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sl1qf"]
+radius = 17.0
+
+[node name="Bat" type="CharacterBody2D"]
+script = SubResource("GDScript_040cs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ci05r")
+hframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_s217c")
+
+[node name="Container" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Container"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_jrfbh")
+}
+autoplay = "Fly"
+
+[node name="Sight" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sight"]
+shape = SubResource("CircleShape2D_0lnhc")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_sl1qf")
+
+[connection signal="body_entered" from="Sight" to="." method="_on_player_in_sight"]
+[connection signal="body_exited" from="Sight" to="." method="_on_sight_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
